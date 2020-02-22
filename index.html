@@ -16,35 +16,17 @@
     <meta name="description" content="ผสมสี | PaSomSee">
 
     <title>ผสมสี | PaSomSee</title>
-    
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-    <link rel="manifest" href="/site.webmanifest">
-    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
-    <meta name="msapplication-TileColor" content="#da532c">
-    <meta name="theme-color" content="#ffffff">    
 
-    <link href="splashscreens/iphone5_splash.png" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image" />
-    <link href="splashscreens/iphone6_splash.png" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image" />
-    <link href="splashscreens/iphoneplus_splash.png" media="(device-width: 621px) and (device-height: 1104px) and (-webkit-device-pixel-ratio: 3)" rel="apple-touch-startup-image" />
-    <link href="splashscreens/iphonex_splash.png" media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3)" rel="apple-touch-startup-image" />
-    <link href="splashscreens/iphonexr_splash.png" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image" />
-    <link href="splashscreens/iphonexsmax_splash.png" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3)" rel="apple-touch-startup-image" />
-    <link href="splashscreens/ipad_splash.png" media="(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image" />
-    <link href="splashscreens/ipadpro1_splash.png" media="(device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image" />
-    <link href="splashscreens/ipadpro3_splash.png" media="(device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image" />
-    <link href="splashscreens/ipadpro2_splash.png" media="(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image" />
 
     <link rel="shortcut icon" href="images/icons/favicon.ico" type="image/x-icon">
-    <link rel="manifest" href="manifest.json">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
         integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-
+        <link href="https://fonts.googleapis.com/css?family=Kanit&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: 'Mali', cursive;
+            font-family: 'Kanit'!important;
         }
+        
 
         .text-white {
             color: white;
@@ -94,13 +76,14 @@
     </nav>
 
     <!-- container -->
-    <div class="container-fluid" style="height: 80vh">
+    <div class="container-fluid" style="height: 75vh">
         <!-- startDisplay -->
         <div class="row h-100" id="">
             <div class="col-12 my-auto">
                 <div class="row">
                     <div class="col-12 text-center text-white my-3">
-                        <p class="score d-inline">ลากสีที่ต้องการไปวางในกล่องเพื่อผสมสีได้เลย!</p>
+                        <p class="score d-inline">ลากสีที่ต้องการไปวางในกล่องเพื่อผสมสี</p><br>
+                        <p class="score d-inline">กดที่แถบสีหนึ่งครั้งเพื่อรีเซต</p>
                     </div>
                 </div>
                 <div class="row p-2 text-center my-2 justify-content-center">
@@ -113,9 +96,8 @@
                         ontouchstart="getOffset(this)" ontouchmove="moveColor(event, this)"
                         ontouchend="colorRelease(event, this)"> </div>
                 </div>
-                <div class="row p-2 my-2 text-center justify-content-center">
-                    <div class="col-10 color-picker color-light rounded-lg border border-dark color-board" id="board"
-                        ontouchmove=""></div>
+                <div class="row p-2 my-2 text-center justify-content-center" ontouchstart="clearBoard()">
+                    <div class="col-10 color-picker color-light rounded-lg border border-dark color-board" id="board"></div>
                 </div>
                 <div class="row p-2 text-center my-2 justify-content-center">
                     <div class="col-3 color-picker color-white rounded-pill mx-2 border border-light" id="white"
@@ -187,6 +169,13 @@
                 right: rect.right,
                 bottom: rect.bottom
             };
+        }
+
+        function clearBoard(){
+            console.log("Clear");
+            let board = document.querySelector("#board");
+            board.style.backgroundColor = "#f8f9fa";
+            colorList = [];
         }
     </script>
 </body>
