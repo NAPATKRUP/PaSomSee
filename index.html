@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <meta http-equiv=" X-UA-Compatible" content="ie=edge">
+
+    <meta name="theme-color" content="#ffbe5b" />
+
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="ผสมสี | PaintBucket">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <meta name="description" content="ผสมสี | PaintBucket">
+
+    <title>ผสมสี | PaintBucket</title>
+
+
+    <link rel="shortcut icon" href="images/icons/favicon.ico" type="image/x-icon">
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <style>
+        body {
+            font-family: 'Mali', cursive;
+        }
+
+        .text-white {
+            color: white;
+        }
+
+        /* color */
+        .color-picker {
+            height: 20vh;
+        }
+
+        .color-board {
+            z-index: -1;
+        }
+
+        .color-danger{
+            background-color: red!important;
+        }
+
+        .color-warning{
+            background-color: yellow!important;
+        }
+
+        .color-primary{
+            background-color: blue!important;
+        }
+
+        .color-white{
+            background-color: white!important;
+        }
+
+        .color-dark{
+            background-color: black!important;
+        }
+
+        .color-light{
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+
+<body class="fixed-top bg-secondary">
+    <!-- navbar -->
+    <nav class="navbar navbar-light">
+        <a class="navbar-brand text-white" href="#">
+            PaintBucket 🎨
+        </a>
+    </nav>
+
+    <!-- container -->
+    <div class="container-fluid" style="height: 80vh">
+        <!-- startDisplay -->
+        <div class="row h-100" id="">
+            <div class="col-12 my-auto">
+                <div class="row">
+                    <div class="col-12 text-center text-white my-3">
+                        <p class="score d-inline">ลากสีที่ต้องการไปวางในกล่องเพื่อผสมสีได้เลย!</p>
+                    </div>
+                </div>
+                <div class="row p-2 text-center my-2 justify-content-center">
+                    <div class="col-3 color-picker color-danger rounded-pill mx-2" id="red" ontouchstart="getOffset(this)"
+                        ontouchmove="moveColor(event, this)" ontouchend="colorRelease(event, this)"></div>
+                    <div class="col-3 color-picker color-warning rounded-pill mx-2" id="yellow"
+                        ontouchstart="getOffset(this)" ontouchmove="moveColor(event, this)"
+                        ontouchend="colorRelease(event, this)"></div>
+                    <div class="col-3 color-picker color-primary rounded-pill mx-2" id="blue"
+                        ontouchstart="getOffset(this)" ontouchmove="moveColor(event, this)"
+                        ontouchend="colorRelease(event, this)"> </div>
+                </div>
+                <div class="row p-2 my-2 text-center justify-content-center">
+                    <div class="col-10 color-picker color-light rounded-lg border border-dark color-board" id="board"
+                        ontouchmove=""></div>
+                </div>
+                <div class="row p-2 text-center my-2 justify-content-center">
+                    <div class="col-3 color-picker color-white rounded-pill mx-2 border border-light" id="white"
+                        ontouchstart="getOffset(this)" ontouchmove="moveColor(event, this)"
+                        ontouchend="colorRelease(event, this)"></div>
+                    <div class="col-3 color-picker color-dark rounded-pill mx-2" id="black" ontouchstart="getOffset(this)"
+                        ontouchmove="moveColor(event, this)" ontouchend="colorRelease(event, this)"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        let offset = {};
+        let colorList = [];
+        let x, y;
+        let myColor;
+        let setColor;
+
+        function cmyk_to_rgb(c, m, y, k){
+            c = c / 100;
+            m = m / 100;
+            y = y / 100;
+            k = k / 100;
+            r = 1 - Math.min( 1, c * ( 1 - k ) + k );
+            g = 1 - Math.min( 1, m * ( 1 - k ) + k );
+            b = 1 - Math.min( 1, y * ( 1 - k ) + k );
+            r = Math.round( r * 255 );
+            g = Math.round( g * 255 );
+            b = Math.round( b * 255 );
+            return "rgb("+r+","+g+","+b+")";
+        }
+
+        function moveColor(ev, ele) {
+            x = ev.touches[0].clientX;
+            y = ev.touches[0].clientY;
+            document.getElementById(ele.id).style.top = (y - offset.top - 40) + "px";
+            document.getElementById(ele.id).style.left = (x - offset.left - 40) + "px";
+        }
+
+        function colorRelease(ev, ele) {
+            console.log(x, " : ", y)
+            let board = document.querySelector("#board");
+            document.getElementById(ele.id).style.top = 0;
+            document.getElementById(ele.id).style.left = 0;
+            if (1) {
+                if (ele.id == "red") setColor = [0, 100, 100, 0];
+                else if (ele.id == "yellow") setColor = [0, 0, 100, 0];
+                else if (ele.id == "blue") setColor = [100, 100, 0, 0];
+                else if (ele.id == "black") setColor = [100, 100, 100, 100];
+                else if (ele.id == "white") setColor = [0, 0, 0, 0];
+                if (myColor == null) {
+                    myColor = setColor;
+                    console.log(myColor);
+                }
+                for (let i=0; i<4; i++) {
+                    myColor[i] = (myColor[i] + setColor[i])/2;
+                }
+                console.log(cmyk_to_rgb(myColor[0], myColor[1], myColor[2], myColor[3]));
+                board.style.backgroundColor = cmyk_to_rgb(myColor[0], myColor[1], myColor[2], myColor[3]);
+            }
+        }
+
+        function getOffset(el) {
+            let rect = el.getBoundingClientRect();
+            offset = {
+                left: rect.left + window.scrollX,
+                top: rect.top + window.scrollY
+            };
+        }
+    </script>
+</body>
+
+</html>
