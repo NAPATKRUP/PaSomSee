@@ -9,13 +9,13 @@
     <meta name="theme-color" content="#ffbe5b" />
 
     <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-title" content="ผสมสี | PaintBucket">
+    <meta name="apple-mobile-web-app-title" content="ผสมสี | PaSomSee">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
-    <meta name="description" content="ผสมสี | PaintBucket">
+    <meta name="description" content="ผสมสี | PaSomSee">
 
-    <title>ผสมสี | PaintBucket</title>
+    <title>ผสมสี | PaSomSee</title>
 
 
     <link rel="shortcut icon" href="images/icons/favicon.ico" type="image/x-icon">
@@ -140,9 +140,10 @@
         function colorRelease(ev, ele) {
             console.log(x, " : ", y)
             let board = document.querySelector("#board");
+            getOffset(board);
             document.getElementById(ele.id).style.top = 0;
             document.getElementById(ele.id).style.left = 0;
-            if (1) {
+            if (x >= offset.left && y >= offset.top && x <= offset.right && y <= offset.bottom) {
                 if (ele.id == "red") setColor = [0, 100, 100, 0];
                 else if (ele.id == "yellow") setColor = [0, 0, 100, 0];
                 else if (ele.id == "blue") setColor = [100, 100, 0, 0];
@@ -164,7 +165,9 @@
             let rect = el.getBoundingClientRect();
             offset = {
                 left: rect.left + window.scrollX,
-                top: rect.top + window.scrollY
+                top: rect.top + window.scrollY,
+                right: rect.right,
+                bottom: rect.bottom
             };
         }
     </script>
